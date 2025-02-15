@@ -5,22 +5,28 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 
+
+
 public class SpellChecker {
     private ArrayList<String> dictionary;
     private int loopCounter = 0 ;
+
 
     public SpellChecker() {
         dictionary = new ArrayList<String>();
         importDictionary();
     }
 
+
     public ArrayList<String> getDictionary() {
         return dictionary;
     }
 
+
     public int getLoopCounter(){
         return loopCounter;
     }
+
 
     /** This uses LINEAR search to find a word in dictionary and returns
      *  true if the word is in dictionary and false otherwise.
@@ -43,6 +49,9 @@ public class SpellChecker {
 
 
 
+
+
+
     /** This uses BINARY search to find a word in dictionary and returns
      *  true if the word is in dictionary and false otherwise.
      *
@@ -50,8 +59,24 @@ public class SpellChecker {
      *  prints that value out before returning.
      */
     public boolean binarySpellCheck(String word) {
+        loopCounter = 0; // for testing
+        int leftIdx = 0;
+        int rightIdx = dictionary.size() - 1;
+        while(leftIdx <= rightIdx){
+            loopCounter++;
+            System.out.print(loopCounter + " ");
+            int middleIdx = (leftIdx + rightIdx) / 2;
+            if (dictionary.get(middleIdx).equals(word)) {
+                return true;
+            }else if(dictionary.get(middleIdx).compareTo(word) < 0){
+                leftIdx = middleIdx + 1;
+            }else{
+                rightIdx = middleIdx - 1;
+            }
+        }
         return false;
     }
+
 
     // private helper method, called in the constructor, which loads the words
     // from the dictionary.txt text file into the "dictionary" instance variable!
@@ -69,15 +94,18 @@ public class SpellChecker {
         }
     }
 
+
     public static void main(String[] args) {
         SpellChecker checker = new SpellChecker();
         System.out.println("----------------------------- SPELL CHECKER -------------------------------");
         System.out.println("The spell checker dictionary has " + checker.getDictionary().size() + " words in it!");
 
+
         System.out.println("Enter a word to look up; if the word is not found, it is not");
         System.out.print("spelled correctly (or is simply not a word), or type q to quit: ");
         Scanner scan = new Scanner(System.in);
         String word = scan.nextLine();
+
 
         while (!word.equals("q")) {
             if (checker.binarySpellCheck(word)) {
@@ -91,3 +119,4 @@ public class SpellChecker {
         scan.close();
     }
 }
+
